@@ -6,6 +6,9 @@ canvas.width=700;
 
 canvas.style.backgroundImage="url('./Assets/background.png')";
 canvas.style.backgroundSize="contain";
+// canvas.style.display="relative"
+
+
 //position of bird and poles 
 let bird={
     x:20,
@@ -17,6 +20,8 @@ let bird={
     v:0,
     score:0,
 }
+
+
 let upper1={
     x:200,
     y:0,
@@ -89,7 +94,11 @@ const update=()=>{
         ctx.drawImage(low1,lower3.x,lower3.y,70,350);
         // ctx.drawImage(low1,lower4.x,lower4.y,70,300)
     }
-    
+    ctx.fillStyle = "rgb(250, 250, 250)";
+	ctx.font = "24px Helvetica";
+	ctx.textAlign = "left";
+	ctx.textBaseline = "top";
+	ctx.fillText("score: " +bird.score, 12, 32);
 
 }
 let birdReady=false;
@@ -104,6 +113,26 @@ let lower1Ready=false;
 const low1=new Image();
 low1.src="./Assets/lower.png"
 low1.onload=()=>lower1Ready=true;
+//score board
+
+
+
+
+const reset=()=>{
+    bird.score=0;
+    bird.y=100;
+    upper1.x=200;
+    upper2.x=480;
+    upper3.x=710;
+    lower1.x=200;
+    lower2.x=480;
+    lower3.x=700
+}
+const updateScore=()=>{
+    // display.innerText=bird.score;
+    bird.score++;
+    
+}
 
 const state=(delta)=>{
 
@@ -142,13 +171,29 @@ const state=(delta)=>{
     bird.dy=bird.v+(bird.acc*(delta*2+1))/2;
     bird.y+=bird.dy;
      
-
+     if(bird.x==upper1.x || bird.x==upper2.x || bird.x==upper3.x)
+     updateScore();
     //collison detection
+
+    if(bird.y<=150 && Math.abs(upper1.x-bird.x)<=20)
+    {
+        console.log("hit")
+        console.log(upper1.y +"--"+ bird.y)
+        reset();
+    }
+    
+    else if(bird.y>=400 && Math.abs(lower1.x-bird.x)<=20)
+    {
+        reset();
+        
+    }
+     
+    
     
 
 
     document.addEventListener("keydown",(event)=>{
-        if(event.key="ArrowUp")
+        if(event.key=="ArrowUp")
         {
             bird.u=-5;
             then=Date.now();
@@ -164,6 +209,7 @@ function animate(){
     const delta=(now-then)/1000;
     state(delta)
     update();
+    console.log(bird.score)
 }
 let then=Date.now();
 animate();
