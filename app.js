@@ -12,50 +12,61 @@ let bird={
     y:100,
     dx:8,
     dy:1,
-    acc:3.8,
+    acc:3,
     u:0,
     v:0,
+    score:0,
 }
 let upper1={
     x:200,
     y:0,
     ux:-10,
-    dx:8,
+    dx:4,
 
     
 }
 let upper2={
-    x:450,
+    x:480,
     y:0,
     ux:-10,
-    dx:8,
+    dx:4,
 }
 let upper3={
-    x:600,
+    x:710,
     y:0,
     ux:-10,
-    dx:8,
+    dx:4,
+}
+let upper4={
+    x:740,
+    y:0,
+    dx:4,
 }
 let lower1={
     x:200,
     y:400,
     ux:-10,
-    dx:8,
+    dx:4,
 
 }
 let lower2={
-    x:445,
+    x:480,
     y:350,
     ux:-10,
-    dx:8,
+    dx:4,
 
 }
 let lower3={
-    x:590,
+    x:700,
     y:400,
     ux:-10,
-    dx:8,
+    dx:4,
 
+}
+let lower4={
+    x:750,
+    y:350,
+    dx:4,
 }
 //drawing image
 
@@ -66,15 +77,17 @@ const update=()=>{
     if(upper1Ready)
     {
         ctx.drawImage(up1,upper1.x,upper1.y,70,150)
-        ctx.drawImage(up1,upper2.x,upper2.y,70,200)
-        ctx.drawImage(up1,upper3.x,upper3.y,70,180)
+        ctx.drawImage(up1,upper2.x,upper2.y,70,180)
+        ctx.drawImage(up1,upper3.x,upper3.y,70,240)
+        // ctx.drawImage(up1,upper4.x,upper4.y,70,200)
 
     }
     if(lower1Ready)
     {
         ctx.drawImage(low1,lower1.x,lower1.y,70,250);
-        ctx.drawImage(low1,lower2.x,lower2.y,70,300);
-        ctx.drawImage(low1,lower3.x,lower3.y,70,300)
+        ctx.drawImage(low1,lower2.x,lower2.y,70,250);
+        ctx.drawImage(low1,lower3.x,lower3.y,70,350);
+        // ctx.drawImage(low1,lower4.x,lower4.y,70,300)
     }
     
 
@@ -101,6 +114,8 @@ const state=(delta)=>{
     lower1.x-=lower1.dx
     lower2.x-=lower2.dx
     lower3.x-=lower3.dx
+    upper4.x-=upper4.dx;
+    lower4.x-=upper4.dx;
 
     //updating position
 
@@ -116,8 +131,29 @@ const state=(delta)=>{
     lower2.x=700;
     if(lower3.x<-80)
     lower3.x=700;
+    if(upper4.x<=-80)
+    upper4.x=700;
+    if(lower4.x<=-80)
+    lower4.x=700;
 
+    //adding gravity to bird's motion
+
+    bird.v=bird.u+bird.acc*delta;
+    bird.dy=bird.v+(bird.acc*(delta*2+1))/2;
+    bird.y+=bird.dy;
+     
+
+    //collison detection
     
+
+
+    document.addEventListener("keydown",(event)=>{
+        if(event.key="ArrowUp")
+        {
+            bird.u=-5;
+            then=Date.now();
+        }
+    })
 
 }
 
