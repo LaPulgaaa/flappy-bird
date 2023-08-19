@@ -23,7 +23,7 @@ let bird={
 
 
 let upper1={
-    x:200,
+    x:250,
     y:0,
     ux:-10,
     dx:4,
@@ -121,7 +121,7 @@ low1.onload=()=>lower1Ready=true;
 const reset=()=>{
     bird.score=0;
     bird.y=100;
-    upper1.x=200;
+    upper1.x=250;
     upper2.x=480;
     upper3.x=710;
     lower1.x=200;
@@ -174,20 +174,36 @@ const state=(delta)=>{
      if(bird.x==upper1.x || bird.x==upper2.x || bird.x==upper3.x)
      updateScore();
     //collison detection
-
+    //upper1
     if(bird.y<=150 && Math.abs(upper1.x-bird.x)<=20)
     {
         console.log("hit")
         console.log(upper1.y +"--"+ bird.y)
         reset();
     }
-    
-    else if(bird.y>=400 && Math.abs(lower1.x-bird.x)<=20)
+    //lower1
+    if(bird.y>=400 && Math.abs(lower1.x-bird.x)<=50)
     {
         reset();
         
     }
-     
+    //upper2
+    if(bird.y<=180 && Math.abs(upper2.x-bird.x)<=20)
+    reset();
+    //lower2
+    if(bird.y>=300 && Math.abs(lower2.x-bird.x)<=50)
+    reset();
+     //upper3
+     if(bird.y<=240 && Math.abs(upper3.x-bird.x)<=20)
+     reset();
+    //lower3
+    if(bird.y>=370 && Math.abs(lower3.x-bird.x)<=50)
+    {
+        reset();
+        console.log()
+    }
+    
+    
     
     
 
